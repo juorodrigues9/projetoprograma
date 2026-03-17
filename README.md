@@ -1,59 +1,98 @@
-# Plataforma de Gestão de Pousada (MVP)
+# PousadaOS — Plataforma web de gestão de pousada
 
-Este repositório contém uma proposta inicial para construir uma plataforma web (acesso via HTTPS) para controle operacional e financeiro de uma pousada com **31 quartos**.
+Sistema SaaS para operação completa de pousada (31 quartos no cenário inicial), com foco em reservas, check-in/check-out, consumação, financeiro, governança e visão gerencial.
 
-## Objetivo
+## Stack
 
-Permitir que equipe e proprietário gerenciem:
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- shadcn/ui (base de componentes em `src/components/ui`)
+- Supabase (Auth + PostgreSQL + Storage)
+- React Hook Form + Zod
+- Lucide React
+- Deploy preparado para Vercel
 
-- Reservas, check-in e checkout.
-- Gastos de consumação e souvenirs por hóspede/quarto.
-- Fechamento de conta no checkout.
-- Recebimentos com detalhamento por meio de pagamento.
-- Status de limpeza e liberação de quarto.
-- Acesso por login para funcionários, com trilha de auditoria.
+## Funcionalidades já estruturadas
 
-## Escopo inicial (MVP)
+- Login com Supabase Auth.
+- Middleware de proteção de rotas privadas.
+- Layout administrativo responsivo (sidebar + topbar).
+- Páginas iniciais dos módulos:
+  - Dashboard
+  - Quartos (mapa funcional com 31 quartos)
+  - Reservas
+  - Hospedagens
+  - Checkout
+  - Governança
+  - Financeiro
+  - Relatórios
+  - Usuários
+  - Configurações
+- Modelagem SQL completa para Supabase em `supabase/migrations`.
+- Seeds iniciais com categorias e 31 quartos em `supabase/seed/seed.sql`.
 
-1. **Autenticação e perfis**
-   - Funcionário (recepção/atendimento).
-   - Governança (limpeza).
-   - Proprietário/administrador.
-2. **Operação da hospedagem**
-   - Cadastro de hóspedes.
-   - Check-in / checkout.
-   - Painel de quartos (31 unidades).
-3. **Lançamentos de consumo**
-   - Consumação (bar/restaurante).
-   - Souvenirs.
-   - Itens lançados na conta do quarto.
-4. **Financeiro de checkout**
-   - Total por hospedagem.
-   - Registro de pagamento (PIX, cartão, dinheiro, transferência).
-   - Situação da conta (aberta, fechada, estornada).
-5. **Limpeza e disponibilidade**
-   - Ao checkout: quarto muda para "aguardando limpeza".
-   - Equipe marca "limpo" para voltar a "disponível".
-6. **Relatórios do proprietário**
-   - Recebimentos por período.
-   - Recebimentos por forma de pagamento.
-   - Taxa de ocupação e quartos indisponíveis.
+## Estrutura de pastas
 
-## Artefatos desta proposta
+```bash
+src/
+  app/
+  components/
+  lib/
+  hooks/
+  schemas/
+  types/
+  actions/
+supabase/
+  migrations/
+  seed/
+```
 
-- Requisitos detalhados: `docs/requisitos.md`
-- Modelo de dados (SQL): `docs/modelo-dados.sql`
-- Roadmap de implementação: `docs/roadmap-mvp.md`
+## Configuração local
 
-## Próximo passo recomendado
+### 1) Instalação
 
-Com esses artefatos aprovados, o próximo passo é implementar a aplicação com:
+```bash
+npm install
+```
 
-- Backend API (ex.: Node.js/NestJS ou Python/FastAPI).
-- Frontend web responsivo (ex.: React).
-- Banco relacional (PostgreSQL).
-- Deploy com HTTPS (ex.: Nginx + certificado TLS) e backups automáticos.
+### 2) Variáveis de ambiente
 
-## Próximo passo imediato
+Crie `.env.local` com:
 
-Consulte `docs/proximo-passo.md` para um plano objetivo de implementação da Sprint 1 (fluxo completo de operação da pousada em 5-7 dias).
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
+
+### 3) Rodar projeto
+
+```bash
+npm run dev
+```
+
+Acesse `http://localhost:3000`.
+
+## Supabase
+
+1. Crie o projeto no Supabase.
+2. Execute a migration SQL de `supabase/migrations/20260317130000_initial_schema.sql`.
+3. Execute `supabase/seed/seed.sql`.
+4. Crie usuários em `Auth > Users` e vincule em `profiles/users` conforme seed/documentação.
+
+## Deploy na Vercel
+
+1. Conecte repositório na Vercel.
+2. Configure variáveis de ambiente:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+3. Build command: `npm run build`
+4. Output: padrão Next.js.
+
+## Próximos passos de implementação
+
+1. Persistência real dos módulos (CRUD com Supabase).
+2. RBAC por perfil via tabela `profiles` + policies.
+3. Fluxo completo de check-in/check-out com regras de negócio obrigatórias.
+4. Relatórios com filtros e exportação.
+5. Auditoria automática em ações críticas.
