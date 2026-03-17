@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pousada Control - Visualização MVP</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Pousada Control</h1>
+      <p>Painel operacional (visualização do MVP)</p>
+    </div>
+    <div class="user-chip">Recepção • Ana</div>
+  </header>
+
+  <main class="layout">
+    <section class="card summary">
+      <h2>Resumo de hoje</h2>
+      <div class="kpis">
+        <article><strong>31</strong><span>Quartos</span></article>
+        <article><strong>18</strong><span>Ocupados</span></article>
+        <article><strong>5</strong><span>Aguardando limpeza</span></article>
+        <article><strong>R$ 7.840</strong><span>Recebimentos</span></article>
+      </div>
+    </section>
+
+    <section class="card rooms">
+      <h2>Painel de quartos</h2>
+      <p class="legend">
+        <span class="dot disponivel"></span>Disponível
+        <span class="dot ocupado"></span>Ocupado
+        <span class="dot limpeza"></span>Aguardando limpeza
+      </p>
+      <div class="grid" id="roomGrid"></div>
+    </section>
+
+    <section class="card checkout">
+      <h2>Checkout - Quarto 12</h2>
+      <ul>
+        <li>Diárias (2x): <strong>R$ 600,00</strong></li>
+        <li>Consumação: <strong>R$ 145,00</strong></li>
+        <li>Souvenirs: <strong>R$ 90,00</strong></li>
+      </ul>
+      <p class="total">Total: <strong>R$ 835,00</strong></p>
+      <div class="actions">
+        <button>Registrar PIX</button>
+        <button class="secondary">Pagamento misto</button>
+        <button class="danger">Finalizar checkout</button>
+      </div>
+    </section>
+
+    <section class="card cleaning">
+      <h2>Fila de limpeza</h2>
+      <ol>
+        <li>Quarto 3 • checkout 10:15</li>
+        <li>Quarto 7 • checkout 10:22</li>
+        <li>Quarto 12 • checkout 10:40</li>
+      </ol>
+      <button class="success">Marcar quarto 12 como limpo</button>
+    </section>
+  </main>
+
+  <script>
+    const roomGrid = document.getElementById('roomGrid');
+    const statuses = ['disponivel', 'ocupado', 'limpeza'];
+    for (let i = 1; i <= 31; i++) {
+      const status = i % 6 === 0 ? 'limpeza' : i % 2 === 0 ? 'ocupado' : 'disponivel';
+      const item = document.createElement('div');
+      item.className = `room ${status}`;
+      item.innerHTML = `<span>Quarto ${i}</span><strong>${status === 'disponivel' ? 'Disponível' : status === 'ocupado' ? 'Ocupado' : 'Aguardando limpeza'}</strong>`;
+      roomGrid.appendChild(item);
+    }
+  </script>
+</body>
+</html>
