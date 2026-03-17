@@ -53,3 +53,7 @@ Com esses artefatos aprovados, o próximo passo é implementar a aplicação com
 - Frontend web responsivo (ex.: React).
 - Banco relacional (PostgreSQL).
 - Deploy com HTTPS (ex.: Nginx + certificado TLS) e backups automáticos.
+
+## Próximo passo imediato
+
+Consulte `docs/proximo-passo.md` para um plano objetivo de implementação da Sprint 1 (fluxo completo de operação da pousada em 5-7 dias).
